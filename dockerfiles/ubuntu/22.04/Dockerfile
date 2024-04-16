@@ -3,8 +3,8 @@ FROM ubuntu:22.04
 
 ENV DEBIAN_FRONTEND=noninteractive
 
-COPY ../install-ssh.sh /usr/local/bin/install-ssh.sh
-COPY ../start-ssh.sh /usr/local/bin/start-ssh.sh
+COPY ./install-ssh.sh /usr/local/bin/install-ssh.sh
+COPY ./start-ssh.sh /usr/local/bin/start-ssh.sh
 
 RUN chmod +x /usr/local/bin/install-ssh.sh && \
     chmod +x /usr/local/bin/start-ssh.sh && \

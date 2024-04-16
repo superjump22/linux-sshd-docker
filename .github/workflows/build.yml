@@ -29,5 +29,5 @@ jobs:
             version=$(basename "$base_path")
             tag="linux-sshd:${os_name}-${version}"
             full_image_name="${{ secrets.DOCKERHUB_USERNAME }}/$tag"
-            docker buildx build --push --tag "$full_image_name" "$base_path"
+            docker buildx build --push --tag "$full_image_name" -f "${base_path}/Dockerfile" "$(dirname "$base_path")"
           done
