@@ -1,5 +1,5 @@
-# docker run --rm -itd --network=host -e SSH_PWD=**PASSWORD** -e SSH_PORT=**PORT** superjump22/linux-sshd:centos-8
-FROM quay.io/centos/centos:centos8
+# docker run --rm -itd --network=host -e SSH_PWD={{PASSWORD}} -e SSH_PORT={{PORT}} superjump22/linux-sshd:fedora-{{VERSION}}
+FROM fedora
 
 COPY ./install-ssh.sh /usr/local/bin/install-ssh.sh
 COPY ./start-ssh.sh /usr/local/bin/start-ssh.sh

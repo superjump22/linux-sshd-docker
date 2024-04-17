@@ -1,5 +1,7 @@
-# docker run --rm -itd --network=host -e SSH_PWD=**PASSWORD** -e SSH_PORT=**PORT** superjump22/linux-sshd:fedora-38
-FROM fedora:38
+# docker run --rm -itd --network=host -e SSH_PWD={{PASSWORD}} -e SSH_PORT={{PORT}} superjump22/linux-sshd:ubuntu-{{VERSION}}
+FROM ubuntu
+
+ENV DEBIAN_FRONTEND=noninteractive
 
 COPY ./install-ssh.sh /usr/local/bin/install-ssh.sh
 COPY ./start-ssh.sh /usr/local/bin/start-ssh.sh

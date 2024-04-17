@@ -1,5 +1,5 @@
-# docker run --rm -itd --network=host -e SSH_PWD=**PASSWORD** -e SSH_PORT=**PORT** superjump22/linux-sshd:debian-buster
-FROM debian:buster
+# docker run --rm -itd --network=host -e SSH_PWD={{PASSWORD}} -e SSH_PORT={{PORT}} superjump22/linux-sshd:debian-{{VERSION}}
+FROM debian
 
 ENV DEBIAN_FRONTEND=noninteractive
 

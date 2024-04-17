@@ -8,6 +8,58 @@ on:
 jobs:
   build-and-push:
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        include:
+          - os: centos
+            version: 7
+            image: quay.io/centos/centos:centos7
+          - os: centos
+            version: 8
+            image: quay.io/centos/centos:centos8
+          - os: centos
+            version: stream8
+            image: quay.io/centos/centos:stream8
+          - os: centos
+            version: stream9
+            image: quay.io/centos/centos:stream9
+          - os: debian
+            version: 9
+            image: debian:9
+          - os: debian
+            version: 10
+            image: debian:10
+          - os: debian
+            version: 11
+            image: debian:11
+          - os: debian
+            version: 12
+            image: debian:12
+          - os: fedora
+            version: 38
+            image: fedora:38
+          - os: fedora
+            version: 39
+            image: fedora:39
+          - os: fedora
+            version: 40
+            image: fedora:40
+          - os: fedora
+            version: 41
+            image: fedora:41
+          - os: ubuntu
+            version: 20.04
+            image: ubuntu:20.04
+          - os: ubuntu
+            version: 22.04
+            image: ubuntu:22.04
+          - os: ubuntu
+            version: 23.10
+            image: ubuntu:23.10
+          - os: ubuntu
+            version: 24.04
+            image: ubuntu:24.04
+
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -21,16 +73,17 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
-      - name: Build and push images
+      - name: Prepare files
         run: |
-          for dir in $(find dockerfiles -type f -name 'Dockerfile'); do
-            dockerfile_dir="${dir%/*}"
-            os=$(basename "$(dirname "$dockerfile_dir")")
-            version=$(basename "$dockerfile_dir")
-            tag="linux-sshd:${os}-${version}"
-            image="${{ secrets.DOCKERHUB_USERNAME }}/$tag"
-            cp dockerfiles/get-os.sh "${dockerfile_dir}/get-os.sh"
-            cp dockerfiles/start-ssh.sh "${dockerfile_dir}/start-ssh.sh"
-            cp "dockerfiles/${os}/install-ssh.sh" "${dockerfile_dir}/install-ssh.sh"
-            docker buildx build --push --tag "$image" -f "${dockerfile_dir}/Dockerfile" "$dockerfile_dir"
-          done
+          mkdir -p build/${{ matrix.os }}/${{ matrix.version }}
+          cp dockerfiles/${{ matrix.os }}/Dockerfile build/${{ matrix.os }}/${{ matrix.version }}/Dockerfile
+          sed -i "s/From ${{ matrix.os }}/From ${{ matrix.image }}/" build/${{ matrix.os }}/${{ matrix.version }}/Dockerfile
+          cp dockerfiles/${{ matrix.os }}/install-ssh.sh build/${{ matrix.os }}/${{ matrix.version }}/install-ssh.sh
+          cp dockerfiles/start-ssh.sh build/${{ matrix.os }}/${{ matrix.version }}/start-ssh.sh
+          cp dockerfiles/get-os.sh build/${{ matrix.os }}/${{ matrix.version }}/get-os.sh
+
+      - name: Build and push image
+        run: |
+          tag="linux-sshd:${{ matrix.os }}-${{ matrix.version }}"
+          image="${{ secrets.DOCKERHUB_USERNAME }}/$tag"
+          docker buildx build --push --tag "$image" build/${{ matrix.os }}/${{ matrix.version }}
