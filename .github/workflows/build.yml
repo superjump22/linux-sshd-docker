@@ -71,17 +71,12 @@ jobs:
         run: |
           mkdir -p build/${{ matrix.os }}/${{ matrix.version }}
           cp dockerfiles/${{ matrix.os }}/Dockerfile build/${{ matrix.os }}/${{ matrix.version }}/Dockerfile
-          sed -i "s|FROM ${{ matrix.os }}|FROM ${{ matrix.image }}|" build/${{ matrix.os }}/${{ matrix.version }}/Dockerfile
           cp dockerfiles/${{ matrix.os }}/install-ssh.sh build/${{ matrix.os }}/${{ matrix.version }}/install-ssh.sh
           cp dockerfiles/start-ssh.sh build/${{ matrix.os }}/${{ matrix.version }}/start-ssh.sh
           cp dockerfiles/get-os.sh build/${{ matrix.os }}/${{ matrix.version }}/get-os.sh
-
-          echo "::group::Dockerfile"
-          cat build/${{ matrix.os }}/${{ matrix.version }}/Dockerfile
-          echo "::endgroup::"
 
       - name: Build and push image
         run: |
           tag="linux-sshd:${{ matrix.os }}-${{ matrix.version }}"
           image="${{ secrets.DOCKERHUB_USERNAME }}/$tag"
-          docker buildx build --push --tag "$image" build/${{ matrix.os }}/${{ matrix.version }}
+          docker buildx build --push --tag "$image" --build-arg BASE_IMAGE="${{ matrix.image }}" --build-arg DIST_VERSION="${{ matrix.version }}" build/${{ matrix.os }}/${{ matrix.version }}
