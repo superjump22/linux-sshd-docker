@@ -82,6 +82,10 @@ jobs:
           cp dockerfiles/start-ssh.sh build/${{ matrix.os }}/${{ matrix.version }}/start-ssh.sh
           cp dockerfiles/get-os.sh build/${{ matrix.os }}/${{ matrix.version }}/get-os.sh
 
+          echo "::group::Dockerfile"
+          cat build/${{ matrix.os }}/${{ matrix.version }}/Dockerfile
+          echo "::endgroup::"
+
       - name: Build and push image
         run: |
           tag="linux-sshd:${{ matrix.os }}-${{ matrix.version }}"
