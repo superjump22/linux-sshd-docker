@@ -8,9 +8,6 @@ on:
 jobs:
   build-and-push:
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        dockerfile: [$(find dockerfiles -type f -name 'Dockerfile')]
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -26,12 +23,14 @@ jobs:
 
       - name: Build and push images
         run: |
-          dockerfile_dir="${{ matrix.dockerfile }}%/*"
-          os=$(basename "$(dirname "$dockerfile_dir")")
-          version=$(basename "$dockerfile_dir")
-          tag="linux-sshd:${os}-${version}"
-          image="${{ secrets.DOCKERHUB_USERNAME }}/$tag"
-          cp dockerfiles/get-os.sh "${dockerfile_dir}/get-os.sh"
-          cp dockerfiles/start-ssh.sh "${dockerfile_dir}/start-ssh.sh"
-          cp "dockerfiles/${os}/install-ssh.sh" "${dockerfile_dir}/install-ssh.sh"
-          docker buildx build --push --tag "$image" -f "${dockerfile_dir}/Dockerfile" "$dockerfile_dir"
+          for dir in $(find dockerfiles -type f -name 'Dockerfile'); do
+            dockerfile_dir="${dir%/*}"
+            os=$(basename "$(dirname "$dockerfile_dir")")
+            version=$(basename "$dockerfile_dir")
+            tag="linux-sshd:${os}-${version}"
+            image="${{ secrets.DOCKERHUB_USERNAME }}/$tag"
+            cp dockerfiles/get-os.sh "${dockerfile_dir}/get-os.sh"
+            cp dockerfiles/start-ssh.sh "${dockerfile_dir}/start-ssh.sh"
+            cp "dockerfiles/${os}/install-ssh.sh" "${dockerfile_dir}/install-ssh.sh"
+            docker buildx build --push --tag "$image" -f "${dockerfile_dir}/Dockerfile" "$dockerfile_dir"
+          done
