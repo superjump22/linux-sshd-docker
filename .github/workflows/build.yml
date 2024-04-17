@@ -15,17 +15,11 @@ jobs:
             version: "7"
             image: quay.io/centos/centos:centos7
           - os: centos
-            version: "8"
-            image: quay.io/centos/centos:centos8
-          - os: centos
             version: stream8
             image: quay.io/centos/centos:stream8
           - os: centos
             version: stream9
             image: quay.io/centos/centos:stream9
-          - os: debian
-            version: "9"
-            image: debian:9
           - os: debian
             version: "10"
             image: debian:10
