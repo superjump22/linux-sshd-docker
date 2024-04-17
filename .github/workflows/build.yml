@@ -12,10 +12,10 @@ jobs:
       matrix:
         include:
           - os: centos
-            version: 7
+            version: "7"
             image: quay.io/centos/centos:centos7
           - os: centos
-            version: 8
+            version: "8"
             image: quay.io/centos/centos:centos8
           - os: centos
             version: stream8
@@ -24,40 +24,40 @@ jobs:
             version: stream9
             image: quay.io/centos/centos:stream9
           - os: debian
-            version: 9
+            version: "9"
             image: debian:9
           - os: debian
-            version: 10
+            version: "10"
             image: debian:10
           - os: debian
-            version: 11
+            version: "11"
             image: debian:11
           - os: debian
-            version: 12
+            version: "12"
             image: debian:12
           - os: fedora
-            version: 38
+            version: "38"
             image: fedora:38
           - os: fedora
-            version: 39
+            version: "39"
             image: fedora:39
           - os: fedora
-            version: 40
+            version: "40"
             image: fedora:40
           - os: fedora
-            version: 41
+            version: "41"
             image: fedora:41
           - os: ubuntu
-            version: 20.04
+            version: "20.04"
             image: ubuntu:20.04
           - os: ubuntu
-            version: 22.04
+            version: "22.04"
             image: ubuntu:22.04
           - os: ubuntu
-            version: 23.10
+            version: "23.10"
             image: ubuntu:23.10
           - os: ubuntu
-            version: 24.04
+            version: "24.04"
             image: ubuntu:24.04
 
     steps:
