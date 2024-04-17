@@ -77,7 +77,7 @@ jobs:
         run: |
           mkdir -p build/${{ matrix.os }}/${{ matrix.version }}
           cp dockerfiles/${{ matrix.os }}/Dockerfile build/${{ matrix.os }}/${{ matrix.version }}/Dockerfile
-          sed -i "s|From ${{ matrix.os }}|From ${{ matrix.image }}|" build/${{ matrix.os }}/${{ matrix.version }}/Dockerfile
+          sed -i "s|FROM ${{ matrix.os }}|FROM ${{ matrix.image }}|" build/${{ matrix.os }}/${{ matrix.version }}/Dockerfile
           cp dockerfiles/${{ matrix.os }}/install-ssh.sh build/${{ matrix.os }}/${{ matrix.version }}/install-ssh.sh
           cp dockerfiles/start-ssh.sh build/${{ matrix.os }}/${{ matrix.version }}/start-ssh.sh
           cp dockerfiles/get-os.sh build/${{ matrix.os }}/${{ matrix.version }}/get-os.sh
