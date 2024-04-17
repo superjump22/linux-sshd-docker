@@ -6,7 +6,7 @@ mkdir -p /var/run/sshd
 case "$DIST_VERSION" in
 38)
 	sed -e 's|^metalink=|#metalink=|g' \
-		-e 's|^#baseurl=http://download.example/pub/fedora/linux|baseurl=http://mirrors.tencentyun.com/fedora|g' \
+		-e 's|^#baseurl=https://download.example/pub/fedora/linux|baseurl=https://mirrors.tencentyun.com/fedora|g' \
 		-i.bak \
 		/etc/yum.repos.d/fedora.repo \
 		/etc/yum.repos.d/fedora-modular.repo \
@@ -15,7 +15,7 @@ case "$DIST_VERSION" in
 	;;
 39 | 40 | 41)
 	sed -e 's|^metalink=|#metalink=|g' \
-		-e 's|^#baseurl=http://download.example/pub/fedora/linux|baseurl=http://mirrors.tencentyun.com/fedora|g' \
+		-e 's|^#baseurl=https://download.example/pub/fedora/linux|baseurl=https://mirrors.tencentyun.com/fedora|g' \
 		-i.bak \
 		/etc/yum.repos.d/fedora.repo \
 		/etc/yum.repos.d/fedora-updates.repo \
