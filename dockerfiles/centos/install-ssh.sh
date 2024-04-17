@@ -10,7 +10,16 @@ case "$DIST_VERSION" in
 		-i.bak \
 		/etc/yum.repos.d/CentOS-*.repo
 	;;
-stream8 | stream9)
+stream8)
+	sudo sed -e 's|^mirrorlist=|#mirrorlist=|g' \
+		-e 's|^#baseurl=http://mirror.centos.org/$contentdir|baseurl=https://mirrors.tuna.tsinghua.edu.cn/centos|g' \
+		-i.bak \
+		/etc/yum.repos.d/CentOS-Stream-AppStream.repo \
+		/etc/yum.repos.d/CentOS-Stream-BaseOS.repo \
+		/etc/yum.repos.d/CentOS-Stream-Extras.repo \
+		/etc/yum.repos.d/CentOS-Stream-PowerTools.repo
+	;;
+stream9)
 	cat <<EOF >/usr/local/bin/update_mirror.pl
 #!/usr/bin/perl
 
