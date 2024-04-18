@@ -27,8 +27,6 @@ jobs:
             version: "39"
           - os: fedora
             version: "40"
-          - os: fedora
-            version: "41"
           - os: ubuntu
             version: "20.04"
           - os: ubuntu
