@@ -17,7 +17,7 @@ stream8)
 		/etc/yum.repos.d/CentOS-*.repo
 	;;
 stream9)
-	cat <<EOF >/etc/yum.repos.d/centos.repo
+	cat <<'EOF' >/etc/yum.repos.d/centos.repo
 [baseos]
 name=CentOS Stream $releasever - BaseOS
 baseurl=https://mirrors.tencentyun.com/centos-stream/$releasever-stream/BaseOS/$basearch/os
@@ -111,7 +111,7 @@ repo_gpgcheck=0
 metadata_expire=6h
 enabled=0
 EOF
-	cat <<EOF >/etc/yum.repos.d/centos-addons.repo
+	cat <<'EOF' >/etc/yum.repos.d/centos-addons.repo
 [highavailability]
 name=CentOS Stream $releasever - HighAvailability
 baseurl=https://mirrors.tencentyun.com/centos-stream/$releasever-stream/HighAvailability/$basearch/os
