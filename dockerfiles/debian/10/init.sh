@@ -35,10 +35,10 @@ deb http://mirrors.tencent.com/debian/ buster main contrib non-free
 # deb-src http://mirrors.tencent.com/debian/ buster main contrib non-free
 deb http://mirrors.tencent.com/debian/ buster-updates main contrib non-free
 # deb-src http://mirrors.tencent.com/debian/ buster-updates main contrib non-free
-deb http://mirrors.tencent.com/debian/ buster-backports main contrib non-free
+# deb http://mirrors.tencent.com/debian/ buster-backports main contrib non-free
 # deb-src http://mirrors.tencent.com/debian/ buster-backports main contrib non-free
-deb http://mirrors.tencent.com/debian-security buster-security main contrib non-free
-# deb-src http://mirrors.tencent.com/debian-security buster-security main contrib non-free
+deb http://mirrors.tencent.com/debian-security buster/updates main contrib non-free
+# deb-src http://mirrors.tencent.com/debian-security buster/updates main contrib non-free
 EOF
 apt-get clean -y
 rm -rf \
@@ -56,10 +56,10 @@ deb https://mirrors.tencentyun.com/debian/ buster main contrib non-free
 # deb-src https://mirrors.tencentyun.com/debian/ buster main contrib non-free
 deb https://mirrors.tencentyun.com/debian/ buster-updates main contrib non-free
 # deb-src https://mirrors.tencentyun.com/debian/ buster-updates main contrib non-free
-deb https://mirrors.tencentyun.com/debian/ buster-backports main contrib non-free
+# deb https://mirrors.tencentyun.com/debian/ buster-backports main contrib non-free
 # deb-src https://mirrors.tencentyun.com/debian/ buster-backports main contrib non-free
-deb https://mirrors.tencentyun.com/debian-security buster-security main contrib non-free
-# deb-src https://mirrors.tencentyun.com/debian-security buster-security main contrib non-free
+deb https://mirrors.tencent.com/debian-security buster/updates main contrib non-free
+# deb-src https://mirrors.tencent.com/debian-security buster/updates main contrib non-free
 EOF
 # housekeeping
 apt-get clean -y
