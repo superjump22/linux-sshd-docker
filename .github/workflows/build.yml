@@ -12,8 +12,6 @@ jobs:
       matrix:
         include:
           - os: centos
-            version: "7"
-          - os: centos
             version: stream8
           - os: centos
             version: stream9
