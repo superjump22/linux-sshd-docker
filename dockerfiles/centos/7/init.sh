@@ -24,11 +24,6 @@ yum install -y openssh-server
 mkdir -p /var/run/sshd
 sed -i "s/#PermitRootLogin prohibit-password/PermitRootLogin yes/" /etc/ssh/sshd_config
 ssh-keygen -A
-# change mirrors
-sed -e 's|^mirrorlist=|#mirrorlist=|g' \
-	-e 's|^#baseurl=http://mirror.centos.org/centos|baseurl=https://mirrors.tencentyun.com/centos|g' \
-	-i.bak \
-	/etc/yum.repos.d/CentOS-*.repo
 # housekeeping
 yum clean all
 rm -rf \

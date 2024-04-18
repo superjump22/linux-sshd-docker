@@ -29,19 +29,6 @@ apt-get update && apt-get install --no-install-recommends -y openssh-server
 mkdir -p /var/run/sshd
 sed -i "s/#PermitRootLogin prohibit-password/PermitRootLogin yes/" /etc/ssh/sshd_config
 ssh-keygen -A
-# change mirrors
-cat <<EOF >/etc/apt/sources.list
-deb https://mirrors.tencentyun.com/ubuntu/ jammy main restricted universe multiverse
-# deb-src https://mirrors.tencentyun.com/ubuntu/ jammy main restricted universe multiverse
-deb https://mirrors.tencentyun.com/ubuntu/ jammy-updates main restricted universe multiverse
-# deb-src https://mirrors.tencentyun.com/ubuntu/ jammy-updates main restricted universe multiverse
-deb https://mirrors.tencentyun.com/ubuntu/ jammy-backports main restricted universe multiverse
-# deb-src https://mirrors.tencentyun.com/ubuntu/ jammy-backports main restricted universe multiverse
-deb https://mirrors.tencentyun.com/ubuntu/ jammy-security main restricted universe multiverse
-# deb-src https://mirrors.tencentyun.com/ubuntu/ jammy-security main restricted universe multiverse
-# deb https://mirrors.tencentyun.com/ubuntu/ jammy-proposed main restricted universe multiverse
-# # deb-src https://mirrors.tencentyun.com/ubuntu/ jammy-proposed main restricted universe multiverse
-EOF
 # housekeeping
 apt-get clean -y
 rm -rf \

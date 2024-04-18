@@ -24,14 +24,6 @@ dnf install -y openssh-server
 mkdir -p /var/run/sshd
 sed -i "s/#PermitRootLogin prohibit-password/PermitRootLogin yes/" /etc/ssh/sshd_config
 ssh-keygen -A
-# change mirrors
-sed -e 's|^metalink=|#metalink=|g' \
-	-e 's|^#baseurl=http://download.example/pub/fedora/linux|baseurl=https://mirrors.tencentyun.com/fedora|g' \
-	-i.bak \
-	/etc/yum.repos.d/fedora.repo \
-	/etc/yum.repos.d/fedora-modular.repo \
-	/etc/yum.repos.d/fedora-updates.repo \
-	/etc/yum.repos.d/fedora-updates-modular.repo
 # housekeeping
 dnf clean all
 rm -rf \
