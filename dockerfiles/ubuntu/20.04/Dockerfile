@@ -8,6 +8,8 @@
 
 FROM ubuntu:20.04
 
+ENV DEBIAN_FRONTEND=noninteractive
+
 COPY *.sh /usr/local/bin/
 
 RUN chmod +x /usr/local/bin/*.sh && \
