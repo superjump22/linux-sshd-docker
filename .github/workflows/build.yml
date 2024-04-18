@@ -13,46 +13,32 @@ jobs:
         include:
           - os: centos
             version: "7"
-            image: quay.io/centos/centos:centos7
           - os: centos
             version: stream8
-            image: quay.io/centos/centos:stream8
           - os: centos
             version: stream9
-            image: quay.io/centos/centos:stream9
           - os: debian
             version: "10"
-            image: debian:10
           - os: debian
             version: "11"
-            image: debian:11
           - os: debian
             version: "12"
-            image: debian:12
           - os: fedora
             version: "38"
-            image: fedora:38
           - os: fedora
             version: "39"
-            image: fedora:39
           - os: fedora
             version: "40"
-            image: fedora:40
           - os: fedora
             version: "41"
-            image: fedora:41
           - os: ubuntu
             version: "20.04"
-            image: ubuntu:20.04
           - os: ubuntu
             version: "22.04"
-            image: ubuntu:22.04
           - os: ubuntu
             version: "23.10"
-            image: ubuntu:23.10
           - os: ubuntu
             version: "24.04"
-            image: ubuntu:24.04
 
     steps:
       - name: Checkout repository
@@ -67,16 +53,8 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
-      - name: Prepare files
-        run: |
-          mkdir -p build/${{ matrix.os }}/${{ matrix.version }}
-          cp dockerfiles/${{ matrix.os }}/Dockerfile build/${{ matrix.os }}/${{ matrix.version }}/Dockerfile
-          cp dockerfiles/${{ matrix.os }}/install-ssh.sh build/${{ matrix.os }}/${{ matrix.version }}/install-ssh.sh
-          cp dockerfiles/start-ssh.sh build/${{ matrix.os }}/${{ matrix.version }}/start-ssh.sh
-          cp dockerfiles/get-os.sh build/${{ matrix.os }}/${{ matrix.version }}/get-os.sh
-
       - name: Build and push image
         run: |
-          tag="linux-sshd:${{ matrix.os }}-${{ matrix.version }}"
+          tag="linux-vm:${{ matrix.os }}-${{ matrix.version }}"
           image="${{ secrets.DOCKERHUB_USERNAME }}/$tag"
-          docker buildx build --push --tag "$image" --build-arg BASE_IMAGE="${{ matrix.image }}" --build-arg DIST_VERSION="${{ matrix.version }}" build/${{ matrix.os }}/${{ matrix.version }}
+          docker buildx build --push --tag "$image" dockerfiles/${{ matrix.os }}/${{ matrix.version }}

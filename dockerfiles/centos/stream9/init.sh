@@ -1,23 +1,31 @@
 #!/bin/bash
-yum update -y
-yum install -y openssh-server
-rm -rf /var/cache/yum/*
+# install systemd
+dnf install -y \
+	iptables \
+	iproute \
+	kmod \
+	procps-ng \
+	sudo \
+	udev
+# unmask services
+systemctl unmask \
+	systemd-remount-fs.service \
+	dev-hugepages.mount \
+	sys-fs-fuse-connections.mount \
+	systemd-logind.service \
+	getty.target \
+	console-getty.service
+# prevents journald from reading kernel messages from /dev/kmsg
+echo "ReadKMsg=no" >>/etc/systemd/journald.conf
+# create default 'root/root' user
+echo "root:root" | chpasswd
+# install sshd
+dnf install -y openssh-server
 mkdir -p /var/run/sshd
-case "$DIST_VERSION" in
-7)
-	sed -e 's|^mirrorlist=|#mirrorlist=|g' \
-		-e 's|^#baseurl=http://mirror.centos.org/centos|baseurl=https://mirrors.tencentyun.com/centos|g' \
-		-i.bak \
-		/etc/yum.repos.d/CentOS-*.repo
-	;;
-stream8)
-	sed -e 's|^mirrorlist=|#mirrorlist=|g' \
-		-e 's|^#baseurl=http://mirror.centos.org/$contentdir|baseurl=https://mirrors.tencentyun.com/centos|g' \
-		-i.bak \
-		/etc/yum.repos.d/CentOS-*.repo
-	;;
-stream9)
-	cat <<'EOF' >/etc/yum.repos.d/centos.repo
+sed -i "s/#PermitRootLogin prohibit-password/PermitRootLogin yes/" /etc/ssh/sshd_config
+ssh-keygen -A
+# change mirrors
+cat <<'EOF' >/etc/yum.repos.d/centos.repo
 [baseos]
 name=CentOS Stream $releasever - BaseOS
 baseurl=https://mirrors.tencentyun.com/centos-stream/$releasever-stream/BaseOS/$basearch/os
@@ -111,7 +119,7 @@ repo_gpgcheck=0
 metadata_expire=6h
 enabled=0
 EOF
-	cat <<'EOF' >/etc/yum.repos.d/centos-addons.repo
+cat <<'EOF' >/etc/yum.repos.d/centos-addons.repo
 [highavailability]
 name=CentOS Stream $releasever - HighAvailability
 baseurl=https://mirrors.tencentyun.com/centos-stream/$releasever-stream/HighAvailability/$basearch/os
@@ -257,9 +265,12 @@ repo_gpgcheck=0
 metadata_expire=6h
 enabled=0
 EOF
-	;;
-*)
-	echo "Unsupported version: $DIST_VERSION"
-	exit 1
-	;;
-esac
+# housekeeping
+dnf clean all
+rm -rf \
+	/var/cache/dnf/* \
+	/var/log/* \
+	/tmp/* \
+	/var/tmp/* \
+	/usr/share/doc/* \
+	/usr/share/man/*
